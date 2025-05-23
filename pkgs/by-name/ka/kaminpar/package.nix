@@ -53,8 +53,8 @@ stdenv.mkDerivation (finalAttrs: {
   strictDeps = true;
 
   nativeBuildInputs = [
-    git
-    pkg-config
+    # git
+    # pkg-config
     cmake
     mpi
   ];
@@ -71,6 +71,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeCheckInputs = [ mpiCheckPhaseHook ];
 
   cmakeFlags = [
+    (lib.cmakeBool "BUILD_SHARED_LIBS" (!stdenv.hostPlatform.isStatic))
     (lib.cmakeBool "KAMINPAR_BUILD_DISTRIBUTED" true)
     (lib.cmakeBool "KAMINPAR_BUILD_WITH_MTUNE_NATIVE" false)
     (lib.cmakeBool "FETCHCONTENT_FULLY_DISCONNECTED" true)
@@ -86,7 +87,7 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/KaHIP/KaMinPar";
     changelog = "https://github.com/KaHIP/KaMinPar/releases/tag/v${finalAttrs.version}";
     license = lib.licenses.mit;
-    platforms = lib.platforms.linux ++ [ "aarch64-darwin" ];
+    platforms = lib.platforms.unix;
     maintainers = with lib.maintainers; [ dsalwasser ];
     mainProgram = "KaMinPar";
   };
