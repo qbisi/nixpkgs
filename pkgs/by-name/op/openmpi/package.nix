@@ -90,7 +90,6 @@ stdenv.mkDerivation (finalAttrs: {
   env = {
     USER = "nixbld";
     HOSTNAME = "localhost";
-    SOURCE_DATE_EPOCH = "0";
   };
 
   outputs = [
