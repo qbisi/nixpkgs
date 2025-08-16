@@ -77,6 +77,7 @@ stdenv.mkDerivation (finalAttrs: {
     (lib.cmakeBool "BUILD_SHARED" true)
     (lib.cmakeBool "BUILD_DYNAMIC" true)
     (lib.cmakeBool "ENABLE_OPENMP" true)
+    (lib.cmakeBool "GMSH_RELEASE" true)
   ];
 
   doCheck = true;
