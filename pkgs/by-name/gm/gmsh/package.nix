@@ -74,9 +74,9 @@ stdenv.mkDerivation (finalAttrs: {
 
   # N.B. the shared object is used by bindings
   cmakeFlags = [
-    "-DENABLE_BUILD_SHARED=ON"
-    "-DENABLE_BUILD_DYNAMIC=ON"
-    "-DENABLE_OPENMP=ON"
+    (lib.cmakeBool "BUILD_SHARED" true)
+    (lib.cmakeBool "BUILD_DYNAMIC" true)
+    (lib.cmakeBool "ENABLE_OPENMP" true)
   ];
 
   doCheck = true;
