@@ -32,6 +32,13 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-2019ogYumkNWqCCDITirmfl69jiL/rIVmaLq37C3aig=";
   };
 
+  # ensure reproducible build
+  env = {
+    USER = "nixbld";
+    HOSTNAME = "localhost";
+    SOURCE_DATE_EPOCH = "0";
+  };
+
   nativeBuildInputs = [
     cmake
     gfortran
