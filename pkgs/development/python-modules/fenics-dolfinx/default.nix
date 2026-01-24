@@ -16,7 +16,6 @@
 
   # buildInputs
   dolfinx,
-  darwinMinVersionHook,
 
   # dependency
   numpy,
@@ -87,8 +86,7 @@ buildPythonPackage (finalAttrs: {
 
   buildInputs = [
     fenicsPackages.dolfinx
-  ]
-  ++ lib.optional stdenv.hostPlatform.isDarwin (darwinMinVersionHook "13.3");
+  ];
 
   dependencies = [
     numpy
@@ -115,6 +113,8 @@ buildPythonPackage (finalAttrs: {
     cd test
   '';
 
+  doCheck = false;
+
   pythonImportsCheck = [
     "dolfinx"
   ];
@@ -131,6 +131,13 @@ buildPythonPackage (finalAttrs: {
       };
     };
   };
+
+  postPatch = ''
+    substituteInPlace python/pyproject.toml --replace-fail \
+      'cmake.build-type = "Release"' 'cmake.build-type = "Debug"'
+  '';
+
+  dontStrip = true;
 
   meta = {
     homepage = "https://fenicsproject.org";

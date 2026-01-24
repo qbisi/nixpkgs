@@ -35,6 +35,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-CK7YEtJtrx/Mto72RHT4Qjg5StO28Et+FeCYxk5T+8s=";
   };
 
+  patches = [
+    ./test.patch
+  ];
+
   nativeBuildInputs = [
     cmake
     pkg-config
@@ -87,6 +91,10 @@ stdenv.mkDerivation (finalAttrs: {
       buildInputs = [ finalAttrs.finalPackage ];
 
       nativeCheckInputs = [ catch2_3 ];
+
+      cmakeBuildType = "Debug";
+
+      dontStrip = true;
 
       doCheck = true;
 
