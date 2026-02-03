@@ -37,11 +37,14 @@ stdenv.mkDerivation rec {
       url = "https://github.com/Open-Cascade-SAS/OCCT/commit/7236e83dcc1e7284e66dc61e612154617ef715d6.diff";
       hash = "sha256-NoC2mE3DG78Y0c9UWonx1vmXoU4g5XxFUT3eVXqLU60=";
     })
-
-    # patch does not apply against 7.9+, it was submitted upstream for future
-    # inclusion: https://github.com/Open-Cascade-SAS/OCCT/pull/683
-    ./vtk-draw-conditional-glx.patch
   ];
+
+  # https://github.com/Open-Cascade-SAS/OCCT/pull/683
+  # Exclude TKIVtkDraw toolkits due to VTK has no glx support on darwin
+  postPatch = lib.optionalString (withVtk && stdenv.hostPlatform.isDarwin) ''
+    substituteInPlace src/Draw/TOOLKITS.cmake \
+      --replace-fail "TKIVtkDraw" ""
+  '';
 
   nativeBuildInputs = [
     cmake
